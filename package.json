@@ -1,0 +1,150 @@
+{
+  "name": "mayora",
+  "productName": "mayora",
+  "version": "1.0.0",
+  "description": "My Electron application description",
+  "main": ".webpack/main",
+  "homepage": "./",
+  "scripts": {
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "lint": "echo \"No linting configured\"",
+    "rebuild": "electron-rebuild -f -w serialport",
+    "install": "electron-rebuild --pre-gyp-fix"
+  },
+  "keywords": [],
+  "author": {
+    "name": "my4fdal",
+    "email": "my4fdal@gmail.com"
+  },
+  "license": "MIT",
+  "config": {
+    "forge": {
+      "packagerConfig": {
+        "asar": true,
+        "icon": "./src/images/appicons/icons/win/icon.ico",
+        "name": "Mayora Desktop App",
+        "executableName": "Mayora Desktop App",
+        "win32metadata": {
+          "CompanyName": "Prisma Developer Team",
+          "OriginalFilename": "Prisma Smart Weighing",
+          "ProductName": "Prisma Smart Weighing"
+        }
+      },
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "electron_forege_app"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ],
+      "plugins": [
+        [
+          "@electron-forge/plugin-webpack",
+          {
+            "mainConfig": "./webpack.main.config.js",
+            "devContentSecurityPolicy": "connect-src 'self' localhost 'unsafe-eval'",
+            "renderer": {
+              "config": "./webpack.renderer.config.js",
+              "entryPoints": [
+                {
+                  "html": "./src/index.html",
+                  "js": "./src/renderer.js",
+                  "name": "main_window",
+                  "preload": {
+                    "js": "./src/preload.js"
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        [
+          "@electron-forge/plugin-auto-unpack-natives"
+        ],
+        [
+          "@timfish/forge-externals-plugin",
+          {
+            "externals": [
+              "serialport",
+              "bcryptjs",
+              "moment"
+            ],
+            "includeDeps": true
+          }
+        ]
+      ]
+    }
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.9",
+    "@babel/preset-react": "^7.16.7",
+    "@electron-forge/cli": "^6.0.0-beta.63",
+    "@electron-forge/maker-deb": "^6.0.0-beta.63",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.63",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.63",
+    "@electron-forge/maker-zip": "^6.0.0-beta.63",
+    "@electron-forge/plugin-auto-unpack-natives": "^6.0.0-beta.63",
+    "@electron-forge/plugin-webpack": "6.0.0-beta.63",
+    "@vercel/webpack-asset-relocator-loader": "1.7.0",
+    "babel-loader": "^8.2.4",
+    "css-loader": "^6.0.0",
+    "electron": "18.0.3",
+    "electron-rebuild": "^3.2.7",
+    "node-loader": "^2.0.0",
+    "style-loader": "^3.0.0"
+  },
+  "dependencies": {
+    "@electron-forge/maker-wix": "^6.0.0-beta.63",
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
+    "@mui/icons-material": "^5.5.1",
+    "@mui/material": "^5.5.1",
+    "@mui/styled-engine-sc": "^5.4.2",
+    "@timfish/forge-externals-plugin": "https://github.com/dannyatthaya/forge-externals-plugin.git",
+    "axios": "^0.26.1",
+    "bcryptjs": "^2.4.3",
+    "cardinal": "^2.1.1",
+    "copy-webpack-plugin": "^10.2.4",
+    "cross-env": "^7.0.3",
+    "electron-is-dev": "^2.0.0",
+    "electron-squirrel-startup": "^1.0.0",
+    "exe-icon-extractor": "^1.0.8",
+    "export-from-json": "^1.6.0",
+    "knex": "^1.0.3",
+    "moment": "^2.29.1",
+    "mysql2": "^2.3.3",
+    "path-browserify": "^1.0.1",
+    "pg": "^8.7.3",
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0",
+    "react-router-dom": "^6.2.2",
+    "react-toastify": "^8.2.0",
+    "serialport": "^10.4.0",
+    "styled-components": "^5.3.3",
+    "uuid": "^8.3.2",
+    "web-vitals": "^2.1.4"
+  },
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false
+  }
+}
